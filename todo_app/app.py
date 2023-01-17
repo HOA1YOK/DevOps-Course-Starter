@@ -21,5 +21,5 @@ def index():
 @app.route('/action', methods=['POST', 'GET'])
 def action():
     new_item = request.form.get('item')
-    items = add_item(new_item)
+    add_item(new_item)
     return redirect(url_for(".index"))
