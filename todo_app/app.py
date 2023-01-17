@@ -1,23 +1,18 @@
-from urllib import request
-from flask import Flask
-from flask import render_template
-from flask import request
-from flask import redirect, url_for
-from flask import session
+from flask import Flask, redirect, render_template, request, url_for
 
+from todo_app.data.session_items import add_item, get_items
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items
-from todo_app.data.session_items import add_item
 
 app = Flask(__name__)
 app.config.from_object(Config())
 
-
+# Display list of items
 @app.route('/')
 def index():
     items = get_items()
     return render_template('index.html', items=items)
 
+# Create new items
 @app.route('/action', methods=['POST', 'GET'])
 def action():
     new_item = request.form.get('item')
