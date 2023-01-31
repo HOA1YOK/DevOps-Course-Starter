@@ -13,7 +13,7 @@ def index():
     return render_template('index.html', items=items)
 
 # Create new items
-@app.route('/action', methods=['POST', 'GET'])
+@app.post('/action')
 def action():
     new_item = request.form.get('item')
     add_item(new_item)
