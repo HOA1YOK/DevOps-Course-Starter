@@ -1,6 +1,6 @@
 import json
 import os
-from warnings import filters
+from flask import session
 
 import requests
 #For testing purposes only 
@@ -37,7 +37,7 @@ def get_board_info():
     response_data = json.loads(response.text)
     return response_data
 
-def get_cards(filter="all"):
+def get_cards(filter="open"):
     """
     Fetches all saved items from the trello board.
 
@@ -47,12 +47,44 @@ def get_cards(filter="all"):
     Returns:
         list: A list of dictionaries, each containing the data of an item.
     """
+    #build url and send GET request
     url = "/".join([api_url, "boards", _BOARD_ID, "cards"])
     filter_query = {'filter': filter}
     response_query = filter_query | auth
     response = requests.get(url, headers=headers, params=response_query, verify=False)
     response_data = json.loads(response.text)
-    return response_data       
+
+    # create a list of dictionaries containing the needed data from each item
+    clean_data = []
+    for item in response_data:
+        item_dictionary = {'id': item['id'], 'title': item['name'], 'desc': item['desc'], 'idList': item['idList'],'status': item['closed'] }
+        clean_data.append(item_dictionary)
+    
+    return(clean_data)
+
+#get existing items in trello board
+def get_items():
+    """
+    Fetches all saved items from the session.
+
+    Returns:
+        list: The list of saved items.
+    """
+    return session.get('items', get_cards('open').copy())
+
+# def get_item(id):
+#     """
+#     Fetches the saved item with the specified ID.
+
+#     Args:
+#         id: The ID of the item.
+
+#     Returns:
+#         item: The saved item, or None if no items match the specified ID.
+#     """
+#     items = get_items()
+#     #print(items for item in items if item['id'] == str(id))
+#     return next((item['title'] for item in items), None)
 
 
 def get_board_lists():
@@ -98,17 +130,6 @@ def update_card_status(card_id):
         card_id: id of the card to update
     """
 
-def get_item(id):
-    """
-    Fetches an item with the specified ID.
-
-    Args:
-        id: The ID of the item.
-
-    Returns:
-        Item: A dictionary containing the data of the fetched item.
-    """
-    pass
 
 # for testing purposes only
 if __name__ == "__main__":
