@@ -57,9 +57,8 @@ def get_cards(filter="open"):
     # create a list of dictionaries containing the needed data from each item
     clean_data = []
     for item in response_data:
-        item_dictionary = {'id': item['id'], 'title': item['name'], 'desc': item['desc'], 'idList': item['idList'],'status': item['closed'] }
+        item_dictionary = {'id': item['id'], 'title': item['name'], 'desc': item['desc'], 'idList': item['idList'],'closed_status': item['closed'] }
         clean_data.append(item_dictionary)
-    
     return(clean_data)
 
 #get existing items in trello board
@@ -72,20 +71,27 @@ def get_items():
     """
     return session.get('items', get_cards('open').copy())
 
-# def get_item(id):
-#     """
-#     Fetches the saved item with the specified ID.
+def add_card(card_title, list_name="To Do"):
+    """
+    Creates a new item, with the specified title and adds it to the 'To Do' list of the specified board
 
-#     Args:
-#         id: The ID of the item.
+    Args:
+        title: the title of the item.
+        list: (optional) name of the specific list to place the new item in
 
-#     Returns:
-#         item: The saved item, or None if no items match the specified ID.
-#     """
-#     items = get_items()
-#     #print(items for item in items if item['id'] == str(id))
-#     return next((item['title'] for item in items), None)
+    Returns: (none?)
+        item: A dictionary containing the data of the created item.
+    """
 
+    # request id of "To Do" list
+    board_lists = get_board_lists()
+    todo_list = next((item for item in board_lists if item['name'] == list_name), None)
+
+    #build url and send POST request
+    url = "/".join([api_url, "cards"])
+    params = {'idList': todo_list["id"], 'name': card_title} | auth
+    response = requests.post(url, headers=headers, params=params, verify=False)
+    return response
 
 def get_board_lists():
     """
@@ -107,19 +113,7 @@ def get_to_do_cards():
         list: A list of dictionaries, each containing the data of an item
     """
     
-    #find all cards om a n
-
-
-def add_card(card_title):
-    """
-    Creates a new item, with the specified title and adds it to the 'To Do' list of the specified board
-
-    Args:
-        title: the title of the item.
-
-    Returns:
-        item: A dictionary containing the data of the created item.
-    """
+    #find all cards on a board
     pass
 
 def update_card_status(card_id):
@@ -129,7 +123,7 @@ def update_card_status(card_id):
     Args:
         card_id: id of the card to update
     """
-
+    pass
 
 # for testing purposes only
 if __name__ == "__main__":
