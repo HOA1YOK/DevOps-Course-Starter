@@ -1,8 +1,7 @@
 from flask import Flask, redirect, render_template, request, url_for
 
-from todo_app.data.session_items import add_item
 from todo_app.flask_config import Config
-from todo_app.data.trello_items import get_items
+from todo_app.data.trello_items import get_items, add_card
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -17,5 +16,5 @@ def index():
 @app.post('/action')
 def action():
     new_item = request.form.get('item')
-    add_item(new_item)
+    add_card(new_item)
     return redirect(url_for(".index"))
