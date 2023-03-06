@@ -54,10 +54,19 @@ def get_cards(filter="open"):
     response = requests.get(url, headers=headers, params=response_query, verify=False)
     response_data = json.loads(response.text)
 
-    # create a list of dictionaries containing the needed data from each item
+    # call get_board_lists() to obtain all the lists and grab the name and id of each 
+    #TODO add a list_id:name entry to each item in the clean_data[] list - this should make it easier to update lists
+    board_lists = get_board_lists()
+    list_dict = {}
+    for item in board_lists:
+        list_id = item['id']
+        list_name = item['name']
+        list_dict[list_id] = list_name
+
+    # create a list of dictionaries containing only the needed data from each item
     clean_data = []
     for item in response_data:
-        item_dictionary = {'id': item['id'], 'title': item['name'], 'desc': item['desc'], 'idList': item['idList'],'closed_status': item['closed'] }
+        item_dictionary = {'id': item['id'], 'title': item['name'], 'desc': item['desc'], 'idList': item['idList'], 'archived_status': item['closed'] }
         clean_data.append(item_dictionary)
     return(clean_data)
 
@@ -105,25 +114,26 @@ def get_board_lists():
     response_data = json.loads(response.text)
     return response_data
 
-def get_to_do_cards():
-    """
-    Fetches all the 'To Do' cards from the specified trello board
 
-    Returns:
-        list: A list of dictionaries, each containing the data of an item
-    """
-    
-    #find all cards on a board
-    pass
-
-def update_card_status(card_id):
+def update_card_status(card_id, list_name='Done'):
     """
     Updates the list_id of an existing card in the board. If no existing card matches the card_id specified. nothing is done.
 
     Args:
         card_id: id of the card to update
     """
-    pass
+    board_lists = get_board_lists()
+    todo_list = next((item for item in board_lists if item['name'] == list_name), None)
+
+    url = url = "/".join([api_url, "cards", card_id])
+    params = {'idList': todo_list["id"]} | auth
+    response = requests.post(url, headers=headers, params=params, verify=False)
+    return response
+
+def archive_card(card_id):
+    url = url = "/".join([api_url, "cards", card_id])
+    params = {'closed': 'true'} | auth
+    response = requests.post(url, headers=headers, params=params, verify=False)
 
 # for testing purposes only
 if __name__ == "__main__":
