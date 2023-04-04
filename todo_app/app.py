@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, url_for
 
 from todo_app.flask_config import Config
-from todo_app.data.trello_items import get_items, add_card
+from todo_app.data.trello_items import get_items, add_card, update_card_status
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -21,9 +21,7 @@ def action():
 
 #Change item status
 @app.post('/complete-item')
-def  complete_item():
+def complete_item():
     complete_item = request.form.get('complete_item')
-    #TODO: call update_card_status(this_item)
-    print('**************************')
-    print(complete_item)
+    update_card_status(complete_item, 'Done')
     return redirect(url_for(".index"))
