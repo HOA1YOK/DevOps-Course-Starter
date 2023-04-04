@@ -14,7 +14,7 @@
         {% for item in items %}
         <li>
           <form action="/complete-item" method="post">
-            Item: {{ item.title }} - Archived: {{item.archived_status}} 
+            Item: {{ item.title }} -  Status: {{item.list_name}}
             <input type="hidden" value={{item.id}} name=complete_item> 
             <input type="submit" value="Complete">
           </form>
