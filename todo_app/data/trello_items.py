@@ -1,7 +1,9 @@
 import json
 import os
-from flask import session
+
 import requests
+from flask import session
+
 
 def get_board_info():
     """
