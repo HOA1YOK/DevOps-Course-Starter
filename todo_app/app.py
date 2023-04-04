@@ -6,22 +6,25 @@ from todo_app.flask_config import Config
 app = Flask(__name__)
 app.config.from_object(Config())
 
+
 # Display list of items
-@app.route('/')
+@app.route("/")
 def index():
     items = get_items()
-    return render_template('index.html', items=items, complete_item=complete_item)
+    return render_template("index.html", items=items, complete_item=complete_item)
+
 
 # Create new items
-@app.post('/action')
+@app.post("/action")
 def action():
-    new_item = request.form.get('item')
+    new_item = request.form.get("item")
     add_card(new_item)
     return redirect(url_for(".index"))
 
-#Change item status
-@app.post('/complete-item')
+
+# Change item status
+@app.post("/complete-item")
 def complete_item():
-    complete_item = request.form.get('complete_item')
-    update_card_status(complete_item, 'Done')
+    complete_item = request.form.get("complete_item")
+    update_card_status(complete_item, "Done")
     return redirect(url_for(".index"))

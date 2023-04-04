@@ -17,6 +17,7 @@ def get_board_info():
     response_data = json.loads(response.text)
     return response_data
 
+
 def get_cards(filter="open"):
     """
     Fetches all saved items from the trello board.
@@ -27,22 +28,30 @@ def get_cards(filter="open"):
     Returns:
         list: A list of dictionaries, each containing the data of an item.
     """
-    #build url and send GET request
+    # build url and send GET request
     url = "/".join([api_url, "boards", _BOARD_ID, "cards"])
-    filter_query = {'filter': filter}
+    filter_query = {"filter": filter}
     response_query = filter_query | auth
     response = requests.get(url, headers=headers, params=response_query, verify=False)
-    response_data = json.loads(response.text)    
-    
+    response_data = json.loads(response.text)
+
     # create a list of dictionaries containing only the needed data from each item
     clean_data = []
     for item in response_data:
-        item_dictionary = {'id': item['id'], 'title': item['name'], 'desc': item['desc'], 'id_list': item['idList'], 'list_name': list_dict[item['idList']], 'archived_status': item['closed'] }
-        if item_dictionary['list_name'] == 'To Do':
+        item_dictionary = {
+            "id": item["id"],
+            "title": item["name"],
+            "desc": item["desc"],
+            "id_list": item["idList"],
+            "list_name": list_dict[item["idList"]],
+            "archived_status": item["closed"],
+        }
+        if item_dictionary["list_name"] == "To Do":
             clean_data.append(item_dictionary)
-    return(clean_data)
+    return clean_data
 
-#get existing items in trello board
+
+# get existing items in trello board
 def get_items():
     """
     Fetches all saved items from the session.
@@ -50,7 +59,8 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    return session.get('items', get_cards('open').copy())
+    return session.get("items", get_cards("open").copy())
+
 
 def add_card(card_title, list_name="To Do"):
     """
@@ -67,11 +77,12 @@ def add_card(card_title, list_name="To Do"):
     # find id of "To Do" list using our list_dict
     list_id = [k for k, v in list_dict.items() if v == list_name]
 
-    #build url and send POST request
+    # build url and send POST request
     url = "/".join([api_url, "cards"])
-    params = {'idList': list_id, 'name': card_title} | auth
+    params = {"idList": list_id, "name": card_title} | auth
     response = requests.post(url, headers=headers, params=params, verify=False)
     return response
+
 
 def get_board_lists():
     """
@@ -86,7 +97,7 @@ def get_board_lists():
     return response_data
 
 
-def update_card_status(card_id, list_name='Done'):
+def update_card_status(card_id, list_name="Done"):
     """
     Updates the list_id of an existing card in the board. If no existing card matches the card_id specified. nothing is done.
 
@@ -98,35 +109,33 @@ def update_card_status(card_id, list_name='Done'):
     dest_list_id = [k for k, v in list_dict.items() if v == list_name]
 
     url = url = "/".join([api_url, "cards", card_id])
-    params = {'idList': dest_list_id} | auth
+    params = {"idList": dest_list_id} | auth
     response = requests.put(url, headers=headers, params=params, verify=False)
     return response
+
 
 # TODO: unused function
 def archive_card(card_id):
     url = url = "/".join([api_url, "cards", card_id])
-    params = {'closed': 'true'} | auth
+    params = {"closed": "true"} | auth
     response = requests.post(url, headers=headers, params=params, verify=False)
 
-_BOARD_ID = os.environ.get('BOARD_ID')
-_API_KEY = os.environ.get('TRELLO_API_KEY')
-_TOKEN = os.environ.get('TRELLO_TOKEN')
+
+_BOARD_ID = os.environ.get("BOARD_ID")
+_API_KEY = os.environ.get("TRELLO_API_KEY")
+_TOKEN = os.environ.get("TRELLO_TOKEN")
 
 api_url = "https://api.trello.com/1"
 headers = {"Accept": "application/json"}
-auth = {
-    'key': _API_KEY,
-    'token': _TOKEN
-}
+auth = {"key": _API_KEY, "token": _TOKEN}
 
-# Create a dictionary for the bard lists with list_name: list_id 
+# Create a dictionary for the bard lists with list_name: list_id
 # This way we can refer to the correct id when moving cards across lists
 # The list_name, list_id values are pretty constant and will remain the same throughout the session.
 # We create this as a variable accessible by all the functions so that we don't have to send the request with each user interaction
 board_lists = get_board_lists()
 list_dict = {}
 for item in board_lists:
-    list_id = item['id']
-    list_name = item['name']
+    list_id = item["id"]
+    list_name = item["name"]
     list_dict[list_id] = list_name
-
