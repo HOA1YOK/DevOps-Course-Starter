@@ -1,10 +1,7 @@
 import json
 import os
 from flask import session
-
 import requests
-#For testing purposes only 
-from dotenv import load_dotenv
 
 def get_board_info():
     """
@@ -39,7 +36,8 @@ def get_cards(filter="open"):
     clean_data = []
     for item in response_data:
         item_dictionary = {'id': item['id'], 'title': item['name'], 'desc': item['desc'], 'id_list': item['idList'], 'list_name': list_dict[item['idList']], 'archived_status': item['closed'] }
-        clean_data.append(item_dictionary)
+        if item_dictionary['list_name'] == 'To Do':
+            clean_data.append(item_dictionary)
     return(clean_data)
 
 #get existing items in trello board
@@ -108,18 +106,9 @@ def archive_card(card_id):
     params = {'closed': 'true'} | auth
     response = requests.post(url, headers=headers, params=params, verify=False)
 
-load_dotenv()
-
-# _HTTP_PROXY=str(os.getenv('HTTP_PROXY'))
-# _HTTPS_PROXY=str(os.getenv('HTTPS_PROXY'))
-
-_HTTP_PROXY=os.getenv('HTTP_PROXY')
-_HTTPS_PROXY=os.getenv('HTTPS_PROXY')
-
 _BOARD_ID = os.environ.get('BOARD_ID')
 _API_KEY = os.environ.get('TRELLO_API_KEY')
 _TOKEN = os.environ.get('TRELLO_TOKEN')
-
 
 api_url = "https://api.trello.com/1"
 headers = {"Accept": "application/json"}
@@ -138,10 +127,4 @@ for item in board_lists:
     list_id = item['id']
     list_name = item['name']
     list_dict[list_id] = list_name
-
-# for testing purposes only
-if __name__ == "__main__":
-    get_board_info()
-    get_board_lists()
-    print(get_cards())
 
