@@ -36,19 +36,13 @@ def get_cards(filter="open"):
     response_data = json.loads(response.text)
 
     # create a list of dictionaries containing only the needed data from each item
-    clean_data = []
+    object_list = []
     for item in response_data:
-        item_dictionary = {
-            "id": item["id"],
-            "title": item["name"],
-            "desc": item["desc"],
-            "id_list": item["idList"],
-            "list_name": list_dict[item["idList"]],
-            "archived_status": item["closed"],
-        }
-        if item_dictionary["list_name"] == "To Do":
-            clean_data.append(item_dictionary)
-    return clean_data
+        if list_dict[item["idList"]] == "To Do":
+            object_list.append(
+                Item(item["id"], item["name"], list_dict[item["idList"]])
+            )
+    return object_list
 
 
 # get existing items in trello board
@@ -139,3 +133,14 @@ for item in board_lists:
     list_id = item["id"]
     list_name = item["name"]
     list_dict[list_id] = list_name
+
+
+class Item:
+    def __init__(self, id, name, status="To Do"):
+        self.id = id
+        self.name = name
+        self.status = status
+
+    @classmethod
+    def from_trello_card(cls, card, list):
+        return cls(card["id"], card["name"], list["name"])
