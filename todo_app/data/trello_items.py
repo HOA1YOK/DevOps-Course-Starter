@@ -5,19 +5,6 @@ import requests
 from flask import session
 
 
-def get_board_info():
-    """
-    Fetches the board info of _BOARD_ID
-
-    Returns:
-        Dictionary: A dictionary containing all the data on the specified board
-    """
-    url = "/".join([api_url, "boards", _BOARD_ID])
-    response = requests.get(url, headers=headers, params=auth, verify=False)
-    response_data = json.loads(response.text)
-    return response_data
-
-
 def get_cards(filter="open"):
     """
     Fetches all saved items from the trello board.
@@ -28,6 +15,7 @@ def get_cards(filter="open"):
     Returns:
         list: A list of dictionaries, each containing the data of an item.
     """
+
     # build url and send GET request
     url = "/".join([api_url, "boards", _BOARD_ID, "cards"])
     filter_query = {"filter": filter}
@@ -35,7 +23,7 @@ def get_cards(filter="open"):
     response = requests.get(url, headers=headers, params=response_query, verify=False)
     response_data = json.loads(response.text)
 
-    # create a list of dictionaries containing only the needed data from each item
+    # create a list of Item class objects containing only the needed data from each item
     object_list = []
     for item in response_data:
         if list_dict[item["idList"]] == "To Do":
@@ -58,14 +46,11 @@ def get_items():
 
 def add_card(card_title, list_name="To Do"):
     """
-    Creates a new item, with the specified title and adds it to the 'To Do' list of the specified board
+    Creates a new card item, with the specified title and adds it to the 'To Do' list of the specified board
 
     Args:
-        title: the title of the item.
+        title: the title of the card item.
         list: (optional) name of the specific list to place the new item in
-
-    Returns: (none?)
-        item: A dictionary containing the data of the created item.
     """
 
     # find id of "To Do" list using our list_dict
@@ -74,8 +59,7 @@ def add_card(card_title, list_name="To Do"):
     # build url and send POST request
     url = "/".join([api_url, "cards"])
     params = {"idList": list_id, "name": card_title} | auth
-    response = requests.post(url, headers=headers, params=params, verify=False)
-    return response
+    requests.post(url, headers=headers, params=params, verify=False)
 
 
 def get_board_lists():
@@ -93,10 +77,11 @@ def get_board_lists():
 
 def update_card_status(card_id, list_name="Done"):
     """
-    Updates the list_id of an existing card in the board. If no existing card matches the card_id specified. nothing is done.
+    Updates the list_id of an existing card in the board.
 
     Args:
         card_id: id of the card to update
+        list_name: (optional) name of the trello list to move the card to
     """
 
     # find id of the destination list using our list_dict
@@ -104,15 +89,7 @@ def update_card_status(card_id, list_name="Done"):
 
     url = url = "/".join([api_url, "cards", card_id])
     params = {"idList": dest_list_id} | auth
-    response = requests.put(url, headers=headers, params=params, verify=False)
-    return response
-
-
-# TODO: unused function
-def archive_card(card_id):
-    url = url = "/".join([api_url, "cards", card_id])
-    params = {"closed": "true"} | auth
-    response = requests.post(url, headers=headers, params=params, verify=False)
+    requests.put(url, headers=headers, params=params, verify=False)
 
 
 _BOARD_ID = os.environ.get("BOARD_ID")
