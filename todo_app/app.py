@@ -11,7 +11,7 @@ app.config.from_object(Config())
 @app.route("/")
 def index():
     items = get_items()
-    return render_template("index.html", items=items, complete_item=complete_item)
+    return render_template("index.html", items=items)
 
 
 # Create new items
