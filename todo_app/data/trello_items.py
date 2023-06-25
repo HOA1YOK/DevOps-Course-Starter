@@ -27,7 +27,7 @@ class TrelloService:
             list_name = item["name"]
             self.list_dict[list_id] = list_name
 
-    def get_cards(filter="open"):
+    def get_cards(self, filter="open"):
         """
         Fetches all saved items from the trello board.
 
@@ -39,34 +39,34 @@ class TrelloService:
         """
 
         # build url and send GET request
-        url = "/".join([api_url, "boards", _BOARD_ID, "cards"])
+        url = "/".join([self.api_url, "boards", _self.BOARD_ID, "cards"])
         filter_query = {"filter": filter}
-        response_query = filter_query | auth
+        response_query = filter_query | self.auth
         response = requests.get(
-            url, headers=headers, params=response_query, verify=False
+            url, headers=self.headers, params=response_query, verify=False
         )
         response_data = json.loads(response.text)
 
         # create a list of Item class objects containing only the needed data from each item
         object_list = []
         for item in response_data:
-            if list_dict[item["idList"]] == "To Do":
+            if self.list_dict[item["idList"]] == "To Do":
                 object_list.append(
-                    Item(item["id"], item["name"], list_dict[item["idList"]])
+                    Item(item["id"], item["name"], self.list_dict[item["idList"]])
                 )
         return object_list
 
     # get existing items in trello board
-    def get_items():
+    def get_items(self):
         """
         Fetches all saved items from the session.
 
         Returns:
             list: The list of saved items.
         """
-        return session.get("items", get_cards("open").copy())
+        return session.get("items", self.get_cards("open").copy())
 
-    def add_card(card_title, list_name="To Do"):
+    def add_card(self, ard_title, list_name="To Do"):
         """
         Creates a new card item, with the specified title and adds it to the 'To Do' list of the specified board
 
@@ -76,26 +76,26 @@ class TrelloService:
         """
 
         # find id of "To Do" list using our list_dict
-        list_id = [k for k, v in list_dict.items() if v == list_name]
+        list_id = [k for k, v in self.list_dict.items() if v == list_name]
 
         # build url and send POST request
-        url = "/".join([api_url, "cards"])
-        params = {"idList": list_id, "name": card_title} | auth
-        requests.post(url, headers=headers, params=params, verify=False)
+        url = "/".join([self.api_url, "cards"])
+        params = {"idList": list_id, "name": self.card_title} | self.auth
+        requests.post(url, headers=self.headers, params=params, verify=False)
 
-    def get_board_lists():
+    def get_board_lists(self):
         """
         Fetches the data of all the lists in the specified trello board
 
         Returns:
             List: A list of dictionaries, each containing the data of a list in a board
         """
-        url = "/".join([api_url, "boards", _BOARD_ID, "lists"])
-        response = requests.get(url, headers=headers, params=auth, verify=False)
+        url = "/".join([self.api_url, "boards", self.BOARD_ID, "lists"])
+        response = requests.get(url, headers=self.headers, params=self.auth, verify=False)
         response_data = json.loads(response.text)
         return response_data
 
-    def update_card_status(card_id, list_name="Done"):
+    def update_card_status(self, card_id, list_name="Done"):
         """
         Updates the list_id of an existing card in the board.
 
@@ -105,11 +105,11 @@ class TrelloService:
         """
 
         # find id of the destination list using our list_dict
-        dest_list_id = [k for k, v in list_dict.items() if v == list_name]
+        dest_list_id = [k for k, v in  self.list_dict.items() if v == list_name]
 
-        url = url = "/".join([api_url, "cards", card_id])
-        params = {"idList": dest_list_id} | auth
-        requests.put(url, headers=headers, params=params, verify=False)
+        url = url = "/".join([self.api_url, "cards", card_id])
+        params = {"idList": dest_list_id} | self.auth
+        requests.put(url, headers=self.headers, params=params, verify=False)
 
 
 class Item:
