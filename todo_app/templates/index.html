@@ -13,7 +13,11 @@
       <ul class="list-group mb-4">
         {% for item in items %}
         <li>
-          {{ item.title }}
+          <form action="/complete-item" method="post">
+            Item: {{ item.name }} -  Status: {{item.status}}
+            <input type="hidden" value={{item.id}} name=complete_item> 
+            <input type="submit" value="Complete">
+          </form>
         </li>
         {% endfor %}
       </ul>
@@ -21,8 +25,8 @@
     <form action="/action" method="post">
       <div class="form-example">
         <label for="item">Enter new item: </label>
-        <input type="text" name="item" id="item" required>
-        <input type="submit" value="add">
+        <input type="text" name=item id=item required>
+        <input type="submit" value=Add>
       </div>
     </form>
   </div>
