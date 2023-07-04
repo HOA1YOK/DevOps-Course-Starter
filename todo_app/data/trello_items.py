@@ -14,7 +14,7 @@ class TrelloService:
 
         self.api_url = "https://api.trello.com/1"
         self.headers = {"Accept": "application/json"}
-        self.auth = {"key": _API_KEY, "token": _TOKEN}
+        self.auth = {"key": self._API_KEY, "token": self._TOKEN}
 
         # Create a dictionary for the bard lists with list_name: list_id
         # This way we can refer to the correct id when moving cards across lists
@@ -39,7 +39,7 @@ class TrelloService:
         """
 
         # build url and send GET request
-        url = "/".join([self.api_url, "boards", _self.BOARD_ID, "cards"])
+        url = "/".join([self.api_url, "boards", self._BOARD_ID, "cards"])
         filter_query = {"filter": filter}
         response_query = filter_query | self.auth
         response = requests.get(
@@ -66,7 +66,7 @@ class TrelloService:
         """
         return session.get("items", self.get_cards("open").copy())
 
-    def add_card(self, ard_title, list_name="To Do"):
+    def add_card(self, card_title, list_name="To Do"):
         """
         Creates a new card item, with the specified title and adds it to the 'To Do' list of the specified board
 
@@ -80,7 +80,7 @@ class TrelloService:
 
         # build url and send POST request
         url = "/".join([self.api_url, "cards"])
-        params = {"idList": list_id, "name": self.card_title} | self.auth
+        params = {"idList": list_id, "name": card_title} | self.auth
         requests.post(url, headers=self.headers, params=params, verify=False)
 
     def get_board_lists(self):
@@ -90,7 +90,7 @@ class TrelloService:
         Returns:
             List: A list of dictionaries, each containing the data of a list in a board
         """
-        url = "/".join([self.api_url, "boards", self.BOARD_ID, "lists"])
+        url = "/".join([self.api_url, "boards", self._BOARD_ID, "lists"])
         response = requests.get(url, headers=self.headers, params=self.auth, verify=False)
         response_data = json.loads(response.text)
         return response_data
