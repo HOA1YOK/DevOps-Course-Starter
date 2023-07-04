@@ -50,10 +50,10 @@ class TrelloService:
         # create a list of Item class objects containing only the needed data from each item
         object_list = []
         for item in response_data:
-            if self.list_dict[item["idList"]] == "To Do":
-                object_list.append(
-                    Item(item["id"], item["name"], self.list_dict[item["idList"]])
-                )
+            #if self.list_dict[item["idList"]] == "To Do":
+            object_list.append(
+                Item(item["id"], item["name"], self.list_dict[item["idList"]])
+            )
         return object_list
 
     # get existing items in trello board
