@@ -19,8 +19,7 @@
 
       <h2>To Do Items</h2>
       <ul class="list-group mb-4">
-        {% for item in view_model.items %}
-        {% if item.status == "To Do" %}
+        {% for item in view_model.todo_items %}
         <li>
           <form action="/complete-item" method="post">
             Item: {{ item.name }} -  Status: {{item.status}}
@@ -28,18 +27,24 @@
             <input type="submit" value="Complete">
           </form>
         </li>
-        {% endif %}
         {% endfor %}
       </ul>
 
       <h2>Doing Items</h2>
       <ul class="list-group mb-4">
-        {% for item in view_model.items %}
-          {% if item.status == "Doing" %}
+        {% for item in view_model.doing_items %}
           <li>
             Item: {{ item.name }} -  Status: {{item.status}}
           </li>
-          {% endif %}
+        {% endfor %}
+      </ul>
+
+      <h2>Done Items</h2>
+      <ul class="list-group mb-4">
+        {% for item in view_model.done_items %}
+          <li>
+            Item: {{ item.name }} -  Status: {{item.status}}
+          </li>
         {% endfor %}
       </ul>
 
