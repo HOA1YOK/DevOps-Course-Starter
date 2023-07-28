@@ -4,6 +4,7 @@ import os
 import requests
 from flask import session
 
+
 ##TODO: call class and methods in app.py
 ##TODO: fix syntax to use self. when necessary
 class TrelloService:
@@ -16,16 +17,11 @@ class TrelloService:
         self.headers = {"Accept": "application/json"}
         self.auth = {"key": self._API_KEY, "token": self._TOKEN}
 
-        # Create a dictionary for the bard lists with list_name: list_id
+        # # Create a dictionary for the bard lists with list_name: list_id
         # This way we can refer to the correct id when moving cards across lists
         # The list_name, list_id values are pretty constant and will remain the same throughout the session.
         # We create this as a variable accessible by all the functions so that we don't have to send the request with each user interaction
-        self.board_lists = self.get_board_lists()
         self.list_dict = {}
-        for item in self.board_lists:
-            list_id = item["id"]
-            list_name = item["name"]
-            self.list_dict[list_id] = list_name
 
     def get_cards(self, filter="open"):
         """
@@ -37,6 +33,8 @@ class TrelloService:
         Returns:
             list: A list of dictionaries, each containing the data of an item.
         """
+
+        self.get_board_lists()
 
         # build url and send GET request
         url = "/".join([self.api_url, "boards", self._BOARD_ID, "cards"])
@@ -50,7 +48,7 @@ class TrelloService:
         # create a list of Item class objects containing only the needed data from each item
         object_list = []
         for item in response_data:
-            #if self.list_dict[item["idList"]] == "To Do":
+            # if self.list_dict[item["idList"]] == "To Do":
             object_list.append(
                 Item(item["id"], item["name"], self.list_dict[item["idList"]])
             )
@@ -91,9 +89,16 @@ class TrelloService:
             List: A list of dictionaries, each containing the data of a list in a board
         """
         url = "/".join([self.api_url, "boards", self._BOARD_ID, "lists"])
-        response = requests.get(url, headers=self.headers, params=self.auth, verify=False)
-        response_data = json.loads(response.text)
-        return response_data
+        response = requests.get(
+            url, headers=self.headers, params=self.auth, verify=False
+        )
+        response_data = response.json()
+
+        for item in response_data:
+            list_id = item["id"]
+            list_name = item["name"]
+            self.list_dict[list_id] = list_name
+        # return response_data
 
     def update_card_status(self, card_id, list_name="Done"):
         """
@@ -105,7 +110,7 @@ class TrelloService:
         """
 
         # find id of the destination list using our list_dict
-        dest_list_id = [k for k, v in  self.list_dict.items() if v == list_name]
+        dest_list_id = [k for k, v in self.list_dict.items() if v == list_name]
 
         url = url = "/".join([self.api_url, "cards", card_id])
         params = {"idList": dest_list_id} | self.auth
