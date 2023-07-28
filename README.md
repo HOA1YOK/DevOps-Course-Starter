@@ -45,10 +45,10 @@ The `.env` file is used by flask to set environment variables when running `flas
 
 ```bash 
 #save your secrets in .env
-TRELLO_API_KEY=<your trello API key>
-TRELLO_TOKEN=<your trello token>
+TRELLO_API_KEY=<your-trello-API-key>
+TRELLO_TOKEN=<your-trello-token>
 # we will also add a variable for the trello board_id value so it can be modified to the user's will.
-BOARD_ID=<id of the trello board to work on> 
+BOARD_ID=<trello-board-id> 
 ```
 _The `.env` file will be ignored by git (see: [`.gitignore`](.gitignore))_
 ## Running the App
@@ -69,3 +69,12 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Testing
+
+You can run the test modules by running:
+``` bash
+pytest .
+# or 
+pytest <path-to-specific-test-file>
+```
