@@ -26,6 +26,7 @@ class StubResponse:
     def __init__(self, fake_response_data):
         self.fake_response_data = fake_response_data
 
+    # This mocks the response.json call from the requests response
     def json(self):
         return self.fake_response_data
 
@@ -51,19 +52,19 @@ def stub(url, headers, params={}, verify=False):
                 "id": "123abc",
                 "idBoard": "1234567890abc",
                 "idList": "456def",
-                "name": "To Do card",
+                "name": "To Do Card 1",
             },
             {
                 "id": "123def",
                 "idBoard": "1234567890abc",
                 "idList": "456def",
-                "name": "Test Card 1",
+                "name": "To Do Card 2",
             },
             {
                 "id": "123ghi",
                 "idBoard": "1234567890abc",
-                "idList": "456def",
-                "name": "Item No3",
+                "idList": "456abc",
+                "name": "Done Card",
             },
         ]
         return StubResponse(fake_response_data)
@@ -76,4 +77,4 @@ def test_index_page(monkeypatch, client):
     monkeypatch.setattr(requests, "get", stub)
     response = client.get("/")
     assert response.status_code == 200
-    assert "Test card 1" in response.data.decode()
+    assert "To Do Card 1" in response.data.decode()
