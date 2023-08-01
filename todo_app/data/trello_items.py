@@ -46,7 +46,6 @@ class TrelloService:
         # create a list of Item class objects containing only the needed data from each item
         object_list = []
         for item in response_data:
-            # if self.list_dict[item["idList"]] == "To Do":
             object_list.append(
                 Item(item["id"], item["name"], self.list_dict[item["idList"]])
             )
@@ -96,7 +95,6 @@ class TrelloService:
             list_id = item["id"]
             list_name = item["name"]
             self.list_dict[list_id] = list_name
-        # return response_data
 
     def update_card_status(self, card_id, list_name="Done"):
         """
