@@ -1,3 +1,4 @@
+"""Integration tests for app.py"""
 import os
 
 import pytest
