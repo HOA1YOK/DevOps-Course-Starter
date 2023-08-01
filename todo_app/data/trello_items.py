@@ -5,8 +5,6 @@ import requests
 from flask import session
 
 
-##TODO: call class and methods in app.py
-##TODO: fix syntax to use self. when necessary
 class TrelloService:
     def __init__(self) -> None:
         self._BOARD_ID = os.environ.get("BOARD_ID")
@@ -43,7 +41,7 @@ class TrelloService:
         response = requests.get(
             url, headers=self.headers, params=response_query, verify=False
         )
-        response_data = json.loads(response.text)
+        response_data = response.json()
 
         # create a list of Item class objects containing only the needed data from each item
         object_list = []
