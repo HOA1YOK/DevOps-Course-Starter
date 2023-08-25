@@ -9,9 +9,17 @@
 
   <div class="row">
     <div class="col-md-12">
-      <h2>Items</h2>
+      <form action="/action" method="post">
+        <div class="form-example">
+          <label for="item">Enter new item: </label>
+          <input type="text" name=item id=item required>
+          <input type="submit" value=Add>
+        </div>
+      </form>
+
+      <h2>To Do Items</h2>
       <ul class="list-group mb-4">
-        {% for item in items %}
+        {% for item in view_model.todo_items %}
         <li>
           <form action="/complete-item" method="post">
             Item: {{ item.name }} -  Status: {{item.status}}
@@ -21,13 +29,25 @@
         </li>
         {% endfor %}
       </ul>
+
+      <h2>Doing Items</h2>
+      <ul class="list-group mb-4">
+        {% for item in view_model.doing_items %}
+          <li>
+            Item: {{ item.name }} -  Status: {{item.status}}
+          </li>
+        {% endfor %}
+      </ul>
+
+      <h2>Done Items</h2>
+      <ul class="list-group mb-4">
+        {% for item in view_model.done_items %}
+          <li>
+            Item: {{ item.name }} -  Status: {{item.status}}
+          </li>
+        {% endfor %}
+      </ul>
+
     </div>
-    <form action="/action" method="post">
-      <div class="form-example">
-        <label for="item">Enter new item: </label>
-        <input type="text" name=item id=item required>
-        <input type="submit" value=Add>
-      </div>
-    </form>
   </div>
 {% endblock %}
