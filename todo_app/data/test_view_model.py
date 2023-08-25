@@ -17,6 +17,7 @@ def test_view_model_done_property():
     view_model = ViewModel(_TEST_ITEMS).done_items
     for i in view_model:
         assert i.status == "Done"
+    assert len(view_model) == 2
 
 
 def test_view_model_todo_property():
