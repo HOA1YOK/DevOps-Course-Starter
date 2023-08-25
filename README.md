@@ -74,7 +74,7 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 
 You can run the test modules by running:
 ``` bash
-pytest .
+poetry run pytest .
 # or 
-pytest <path-to-specific-test-file>
+poetry run pytest <path-to-specific-test-file>
 ```
