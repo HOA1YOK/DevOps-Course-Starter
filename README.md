@@ -17,6 +17,8 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-
 ```powershell
 (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py -UseBasicParsing).Content | python -
 ```
+### Docker
+This project can also be run in a docker container. To do so, first make sure you have docker properly installed. https://docs.docker.com/get-docker/
 
 ## Dependencies
 
@@ -51,7 +53,7 @@ TRELLO_TOKEN=<your-trello-token>
 BOARD_ID=<trello-board-id> 
 ```
 _The `.env` file will be ignored by git (see: [`.gitignore`](.gitignore))_
-## Running the App
+## Running the App locally
 
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
 ```bash
@@ -78,3 +80,36 @@ poetry run pytest .
 # or 
 poetry run pytest <path-to-specific-test-file>
 ```
+
+## Running the App in Docker
+In this project you can build and run a docker image for both Production (using gunicorn to run the server) and Development (using flask for the server and allowing for dynamic debugging of the app).
+
+### Production
+#### Building the image
+Has the basic main dependencies for the project
+``` bash 
+docker build --target production <path/to/Dockerfile> --tag todo_app:prod
+```
+#### Running the container
+For running the Production image, you will need to pass your populated ```.env``` file containing your secrets through the ```docker run``` command:
+
+``` bash
+docker run --env-file ./.env -p 8000:5000 todo_app:prod
+```
+The gunicorn application will Run in port ```8000``` inside the container, so we can use ```-p``` to expose <container_port>:<host_port> to forward the app into our host port 5000 
+
+### Development
+#### Building the image
+Has the main project dependencies as well as the development & testing dependencies installed
+```bash
+docker build --target development <path/to/Dockerfile> --tag todo_app:dev 
+```
+#### Running the container
+To take advantage of flask's development server that allows for dynamic hot reloading of code changes, we will use ```--mount``` to mount the app files into the container. This way the developer can perform changes in the local files, whilst still running the server in the container.
+
+Once again you will still need to pass your populated ```.env``` file containing your secrets through the ```docker run``` command:
+
+```bash 
+docker run --env-file ./.env -p 5000:5000 --mount type=bind,source=<full/path/to/app/files/todo_app>,target=/DevOps-Course-Starter/todo_app todo_app:dev
+```
+The Fask server will run in port ```5000``` inside of the container. 
