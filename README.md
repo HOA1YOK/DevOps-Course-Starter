@@ -82,19 +82,19 @@ poetry run pytest <path-to-specific-test-file>
 ```
 
 ## Running the App in Docker
-In this project you can build and run a docker image for both Production (using gunicorn to run the server) and Development (using flask for the server and allowing for dynamic debugging of the app).
+In this project you can build and run a docker image for both Production (using gunicorn to run the server) and Development (using flask for the server and allowing for dynamic debugging of the app). Make sure you are running the app from the repository root folder (where the dockerfile and .dockerignore are located)
 
 ### Production
 #### Building the image
 Has the basic main dependencies for the project
 ``` bash 
-docker build --target production <path/to/Dockerfile> --tag todo_app:prod
+docker build --target production --tag todo_app:prod .
 ```
 #### Running the container
 For running the Production image, you will need to pass your populated ```.env``` file containing your secrets through the ```docker run``` command:
 
 ``` bash
-docker run --env-file ./.env -p 8000:5000 todo_app:prod
+docker run --env-file ./.env -p 5000:8000 todo_app:prod
 ```
 The gunicorn application will Run in port ```8000``` inside the container, so we can use ```-p``` to expose <container_port>:<host_port> to forward the app into our host port 5000 
 

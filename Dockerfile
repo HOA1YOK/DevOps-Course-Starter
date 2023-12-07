@@ -24,9 +24,7 @@ RUN poetry install --only main
 ### Create prod layer containing application to run ###
 FROM base as production
 # Copy app into image
-COPY todo_app/__init__.py todo_app/app.py todo_app/flask_config.py ./todo_app/
-COPY todo_app/templates ./todo_app/templates/
-COPY todo_app/data ./todo_app/data/
+COPY todo_app/ ./todo_app/
 # Expose gunicorn app port
 EXPOSE 8000 
 # Run gunicorn command
@@ -37,6 +35,6 @@ FROM base as development
 #full poetry install main + dev
 RUN poetry install
 # export flask app port
-EXPOSE 5080
+EXPOSE 5000
 # Run flask comand
 CMD poetry run flask run -h 0.0.0.0 -p 5000

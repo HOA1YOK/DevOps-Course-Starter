@@ -1,4 +1,6 @@
 .git
+.gitignore
+.gitpod.yml
 .vscode
 .venv
 .pytest_cache
