@@ -1,0 +1,142 @@
+<mxfile host="app.diagrams.net" modified="2023-12-07T15:25:43.272Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0" etag="iu1wAlXCiZtkiNJB-tJj" version="22.1.7" type="github" pages="2">
+  <diagram name="C4.1 Context Diagram" id="5f0bae14-7c28-e335-631c-24af17079c00">
+    <mxGraphModel dx="2410" dy="738" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="XomQZTyViKvj3tq7OZnX-9" value="TRELLO" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="600" y="70" width="330" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="39150e848f15840c-1" value="USER BROWSER&amp;nbsp;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="70" y="70" width="330" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-1" value="User that wants&lt;br&gt;to manage their &lt;br&gt;TODO list" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#232F3E;fillColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.user;" vertex="1" parent="1">
+          <mxGeometry x="-110" y="130" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=115;entryDy=330;entryPerimeter=0;" edge="1" parent="1" source="XomQZTyViKvj3tq7OZnX-1" target="39150e848f15840c-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="190" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="50" y="185" />
+              <mxPoint x="50" y="185" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-4" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn2.iconfinder.com/data/icons/boxicons-solid-vol-2/24/bxs-pointer-128.png" vertex="1" parent="1">
+          <mxGeometry x="180" y="80" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-5" value="todo_app" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;swimlaneFillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="130" y="110" width="210" height="160" as="geometry">
+            <mxRectangle x="180" y="110" width="90" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-8" value="Flask app that allows the user to visualize and manage their TODO items" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="XomQZTyViKvj3tq7OZnX-5">
+          <mxGeometry x="20" y="30" width="170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="XomQZTyViKvj3tq7OZnX-11" target="XomQZTyViKvj3tq7OZnX-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-21" value="sends GET API request to&amp;nbsp;&lt;br&gt;retrieve data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="XomQZTyViKvj3tq7OZnX-19">
+          <mxGeometry x="0.0098" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-11" value="Trello board" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="110" width="210" height="160" as="geometry">
+            <mxRectangle x="180" y="110" width="90" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-12" value="User Board that gets updated with changes from our todo_app" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="XomQZTyViKvj3tq7OZnX-11">
+          <mxGeometry x="20" y="30" width="170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="XomQZTyViKvj3tq7OZnX-5" target="XomQZTyViKvj3tq7OZnX-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XomQZTyViKvj3tq7OZnX-20" value="Sends rest API request to&amp;nbsp;&lt;br&gt;update data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="XomQZTyViKvj3tq7OZnX-18">
+          <mxGeometry x="0.135" y="-5" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="DPYBh8axbIzVFLmVYnBn" name="C4.2 Container Diagram">
+    <mxGraphModel dx="1310" dy="738" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-1" value="TRELLO" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="970" y="170" width="330" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-2" value="USER BROWSER&amp;nbsp;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="240" y="130" width="540" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="EVjwVdX3Z2JLalZ2tUCJ-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-32" value="Visits" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EVjwVdX3Z2JLalZ2tUCJ-31">
+          <mxGeometry x="-0.6419" y="-5" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-3" value="User that wants&lt;br&gt;to manage their &lt;br&gt;TODO list" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#232F3E;fillColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.user;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-5" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn2.iconfinder.com/data/icons/boxicons-solid-vol-2/24/bxs-pointer-128.png" vertex="1" parent="1">
+          <mxGeometry x="370" y="140" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-6" value="todo_app" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;swimlaneFillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="280" y="170" width="460" height="240" as="geometry">
+            <mxRectangle x="180" y="110" width="90" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="EVjwVdX3Z2JLalZ2tUCJ-6" source="EVjwVdX3Z2JLalZ2tUCJ-7" target="EVjwVdX3Z2JLalZ2tUCJ-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-29" value="Uses" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#dae8fc;" vertex="1" connectable="0" parent="EVjwVdX3Z2JLalZ2tUCJ-28">
+          <mxGeometry x="-0.125" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-7" value="&lt;b&gt;Flask web app&lt;br&gt;&lt;/b&gt;&lt;br&gt;renders html and handles website redirects based on user actions" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="EVjwVdX3Z2JLalZ2tUCJ-6">
+          <mxGeometry x="20" y="50" width="170" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-27" value="&lt;b&gt;Trello Service&lt;br&gt;&lt;/b&gt;&lt;br&gt;Python code to generate the API requests for TRELLO and format the return data to display by the app&amp;nbsp;" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="EVjwVdX3Z2JLalZ2tUCJ-6">
+          <mxGeometry x="270" y="50" width="170" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;" edge="1" source="EVjwVdX3Z2JLalZ2tUCJ-10" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="740" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-9" value="sends GET API request to&amp;nbsp;&lt;br&gt;retrieve data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EVjwVdX3Z2JLalZ2tUCJ-8">
+          <mxGeometry x="0.0098" y="-1" relative="1" as="geometry">
+            <mxPoint x="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-10" value="Trello board" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="210" width="210" height="160" as="geometry">
+            <mxRectangle x="180" y="110" width="90" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-11" value="User Board that gets updated with changes from our todo_app" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="EVjwVdX3Z2JLalZ2tUCJ-10">
+          <mxGeometry x="20" y="30" width="170" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" target="EVjwVdX3Z2JLalZ2tUCJ-10" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="740" y="330" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EVjwVdX3Z2JLalZ2tUCJ-13" value="Sends POST/PUT API request to&amp;nbsp;&lt;br&gt;update data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EVjwVdX3Z2JLalZ2tUCJ-12">
+          <mxGeometry x="0.135" y="-5" relative="1" as="geometry">
+            <mxPoint x="-34" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
