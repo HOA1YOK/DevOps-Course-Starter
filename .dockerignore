@@ -1,0 +1,8 @@
+.git
+.gitignore
+.gitpod.yml
+.vscode
+.venv
+.pytest_cache
+.env
+**__pycache__**
