@@ -35,3 +35,18 @@ services:
         target: /DevOps-Course-Starter/todo_app
     profiles:
       - dev
+
+  testing:
+    image: "todo_app:test"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: testing
+      args:
+        START: base_with_proxy
+    volumes:
+      - type: bind
+        source: ./todo_app
+        target: /DevOps-Course-Starter/todo_app
+    profiles:
+      - test
