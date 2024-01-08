@@ -1,0 +1,19 @@
+# Display name for the workflow
+name: Continuous Integration 
+# Workflow trigger: push
+on: [push]
+
+# Collection of jobs
+jobs:
+    # Job name: build
+    build:
+        # Display name for the job
+        name: Build and test
+        # Which github-hosted runner to use
+        runs-on: ubuntu-latest
+        # list of steps to execute, sequential - each step uses an action or runs a shell
+        steps:
+            # use existing github action to checkout current repo/commit in the runner/agent
+            - uses: actions/checkout@v2
+            # run 'echo Hello World' in a shell
+            - run: echo Hello World
