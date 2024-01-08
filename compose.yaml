@@ -1,0 +1,37 @@
+version: '0.1'
+
+services:
+
+  production:
+    image: todo_app:prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+      args:
+        START: base_with_proxy #TODO: only for building behind corporate proxy, remove before PR (use --build-arg in commandline)
+    ports:
+      - "5000:8000"
+    env_file:
+      - ".env"
+    profiles:
+      - prod
+
+  development:
+    image: "todo_app:dev"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        START: base_with_proxy #TODO: only for building behind corporate proxy, remove before PR (use --build-arg in commandline)
+    ports:
+      - "5000:5000"
+    env_file:
+      - ".env"
+    volumes:
+      - type: bind
+        source: ./todo_app
+        target: /DevOps-Course-Starter/todo_app
+    profiles:
+      - dev
