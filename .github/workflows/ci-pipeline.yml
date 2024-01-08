@@ -15,5 +15,4 @@ jobs:
         steps:
             # use existing github action to checkout current repo/commit in the runner/agent
             - uses: actions/checkout@v2
-            # run 'echo Hello World' in a shell
-            - run: echo Hello World
+            - run: docker compose up testing
