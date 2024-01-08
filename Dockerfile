@@ -48,4 +48,4 @@ COPY tests ./tests/
 # Copy test env file into image
 COPY .env.test .
 # Run the tests
-CMD poetry run pytest tests/
+ENTRYPOINT poetry run pytest tests/
