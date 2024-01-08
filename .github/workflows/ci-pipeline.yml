@@ -1,7 +1,16 @@
 # Display name for the workflow
 name: Continuous Integration 
 # Workflow trigger: push
-on: [push]
+on: 
+    push:
+        paths-ignore:
+            - '*.md'
+            
+    pull_request:
+        types:
+            - opened
+        paths-ignore:
+            - '*.md'
 
 # Collection of jobs
 jobs:
