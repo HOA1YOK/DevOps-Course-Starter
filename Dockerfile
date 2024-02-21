@@ -38,3 +38,14 @@ RUN poetry install
 EXPOSE 5000
 # Run flask comand
 CMD poetry run flask run -h 0.0.0.0 -p 5000
+
+### Create test layer containing tests to run ###
+FROM base as testing
+# full poetry install main + dev
+RUN poetry install
+# Copy test files into image
+COPY tests ./tests/
+# Copy test env file into image
+COPY .env.test .
+# Run the tests
+ENTRYPOINT poetry run pytest tests/

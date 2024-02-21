@@ -87,8 +87,10 @@ In this project you can build and run a docker image for both Production (using 
 ### Production
 #### Building the image
 Has the basic main dependencies for the project
+
+*(Add `--build-arg="START=base_with_proxy"` to the command line to build behind a proxy)*
 ``` bash 
-docker build --target production --tag todo_app:prod .
+docker build [--build-arg="START=base_with_proxy"] --target production --tag todo_app:prod .
 ```
 #### Running the container
 For running the Production image, you will need to pass your populated ```.env``` file containing your secrets through the ```docker run``` command:
@@ -96,13 +98,15 @@ For running the Production image, you will need to pass your populated ```.env``
 ``` bash
 docker run --env-file ./.env -p 5000:8000 todo_app:prod
 ```
-The gunicorn application will Run in port ```8000``` inside the container, so we can use ```-p``` to expose <container_port>:<host_port> to forward the app into our host port 5000 
+The gunicorn application will Run in port ```8000``` inside the container, so we can use ```-p``` to expose <host_port>:<container_port> to forward the app into our host port 5000 
 
 ### Development
 #### Building the image
 Has the main project dependencies as well as the development & testing dependencies installed
+
+*(Add `--build-arg="START=base_with_proxy"` to the command line to build behind a proxy)*
 ```bash
-docker build --target development <path/to/Dockerfile> --tag todo_app:dev 
+docker build [--build-arg="START=base_with_proxy"] --target development --tag todo_app:dev .
 ```
 #### Running the container
 To take advantage of flask's development server that allows for dynamic hot reloading of code changes, we will use ```--mount``` to mount the app files into the container. This way the developer can perform changes in the local files, whilst still running the server in the container.
