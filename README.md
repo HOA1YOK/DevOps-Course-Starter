@@ -1,5 +1,5 @@
 # DevOps Apprenticeship: Project Exercise
-![Build and Test](https://github.com/HOA1YOK/DevOps-Course-Starter/blob/main/.github/workflows/ci-pipeline.yml/badge.svg)
+![Build and Test](https://github.com/HOA1YOK/DevOps-Course-Starter/actions/workflows/ci-pipeline.yml/badge.svg?branch=main)
 ## Azure Deployment
 The production deployment can be found running at: [`TodoApp.azurewebsites.net`](https://module8.azurewebsites.net/)
 
@@ -66,7 +66,9 @@ Unlike the `production` target, `develoment` and `testing` images do not contain
 ## Github Actions
 The following Github actions are set to run in this repository:
 
-1) ![Build and Test](https://github.com/HOA1YOK/DevOps-Course-Starter/blob/main/.github/workflows/ci-pipeline.yml/badge.svg) Build and Test Pipeline 
+1) Build and Test Pipeline
+    
+    ![Build and Test](https://github.com/HOA1YOK/DevOps-Course-Starter/actions/workflows/ci-pipeline.yml/badge.svg?branch=main)
     - Triggered with any Push and Pull Request
     - Builds the app and runs the tests
 
