@@ -1,8 +1,94 @@
 # DevOps Apprenticeship: Project Exercise
+![Build and Test](https://github.com/HOA1YOK/DevOps-Course-Starter/blob/main/.github/workflows/ci-pipeline.yml/badge.svg)
+## Azure Deployment
+The production deployment can be found running at: [`TodoApp.azurewebsites.net`](https://module8.azurewebsites.net/)
 
-> If you are using GitPod for the project exercise (i.e. you cannot use your local machine) then you'll want to launch a VM using the [following link](https://gitpod.io/#https://github.com/CorndelWithSoftwire/DevOps-Course-Starter). Note this VM comes pre-setup with Python & Poetry pre-installed.
+## DockerHub production image
+https://hub.docker.com/r/adrianapadronhernando/todo_app
 
 ## System Requirements
+### Docker
+This project can be run in a docker container. To do so, first make sure you have docker properly installed. https://docs.docker.com/get-docker/
+
+## Prerequisites
+### Trello 
+This application calls and sends requests to a trello board, before executing it.
+
+1) Sign in or create a [trello.com](https://trello.com) account
+2) generate a personal `API Key` and `Token` for authentication. (_To generate them,  access [this link](https://trello.com/app-key) **after** signing in into trello_)
+
+### ENV variables and secrets
+You'll need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
+
+```bash
+$ cp .env.template .env  # (first time only)
+```
+
+The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
+
+#### You will have to modify the `.env.template` file to create a `.env` file which includes the following variables and populate them accordingly.
+
+```bash 
+#save your secrets in .env
+TRELLO_API_KEY=<your-trello-API-key>
+TRELLO_TOKEN=<your-trello-token>
+# we will also add a variable for the trello board_id value so it can be modified to the user's will.
+BOARD_ID=<trello-board-id> 
+```
+_The `.env` file will be ignored by git (see: [`.gitignore`](.gitignore))_
+
+## Running the App with docker compose
+
+In this project you can build and run a docker image for both `Production` (using gunicorn to run the server) and `Development` targets (using flask for the server and allowing for dynamic debugging of the app). As well as a `Testing` target, containing the tests and testing environment.
+
+Make sure you are running the app from the repository root folder (where the dockerfile and .dockerignore are located)
+
+### Production
+To build amd run the production target, use the following command:
+``` bash 
+docker compose up production
+```
+
+### Development
+To build and run the development target, use the following command:
+``` bash
+docker compose up development
+```
+
+### Testing
+To build and run the testing target, use the following command:
+``` bash
+docker compose up testing
+```
+
+Unlike the `production` target, `develoment` and `testing` images do not contain source code, instead, the `./todo_app` directory from this repository will be mounted to the running container. This will allow for dynamic development and debugging of the app.
+
+## Github Actions
+The following Github actions are set to run in this repository:
+
+1) ![Build and Test](https://github.com/HOA1YOK/DevOps-Course-Starter/blob/main/.github/workflows/ci-pipeline.yml/badge.svg) Build and Test Pipeline 
+    - Triggered with any Push and Pull Request
+    - Builds the app and runs the tests
+
+## Making a new deployment
+There are 2 steps to manually updating the current Azure deployment:
+1) Build and Push a new container to docker hub
+``` bash
+docker compose build production
+docker tag todo_app:prod adrianapadronhernando/todo_app
+docker login
+docker push adrianapadronhernando/todo_app
+```
+2) Perform a POST request to the azure [webhook URL](https://portal.azure.com/#@devops.corndel.com/resource/subscriptions/d33b95c7-af3c-4247-9661-aa96d47fccc0/resourceGroups/Cohort27_AdrHer_ProjectExercise/providers/Microsoft.Web/sites/module8/vstscd) to update the container to use
+``` bash
+curl -dH -X POST "<webhook>"
+```
+`Hint: remember to escape backslashes '\' with a $ in your command. eg: curl -dH -X POST "https://\$<deployment_username>:<deployment_password>@<webapp_name>.scm "`
+
+
+# Alternative Methods to run the Todo_App
+
+## Running with the Poetry virtual environment
 
 The project uses poetry for Python to create an isolated environment and manage package dependencies. To prepare your system, ensure you have an official distribution of Python version 3.7+ and install Poetry using one of the following commands (as instructed by the [poetry documentation](https://python-poetry.org/docs/#system-requirements)):
 
@@ -17,43 +103,13 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-
 ```powershell
 (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py -UseBasicParsing).Content | python -
 ```
-### Docker
-This project can also be run in a docker container. To do so, first make sure you have docker properly installed. https://docs.docker.com/get-docker/
-
-## Dependencies
-
-The project uses a virtual environment to isolate package dependencies. To create the virtual environment and install required packages, run the following from your preferred shell:
+### Installing dependencies
+The project will use a virtual environment to isolate package dependencies. To create the virtual environment and install required packages, run the following from your preferred shell:
 
 ```bash
 $ poetry install
 ```
-
-You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
-
-```bash
-$ cp .env.template .env  # (first time only)
-```
-
-## Prerequisites
-
-This application calls and sends requests to a trello board, before executing it you should have a [trello.com](https://trello.com) account and generate a personal API Key and Token for authentication.
- - To generate get your API Key and Token access [this link](https://trello.com/app-key) **after** signing in into trello
-
-## ENV variables and secrets
-
-The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
-
-### You will have to modify the `.env` to include the following variables and populate them accordingly.
-
-```bash 
-#save your secrets in .env
-TRELLO_API_KEY=<your-trello-API-key>
-TRELLO_TOKEN=<your-trello-token>
-# we will also add a variable for the trello board_id value so it can be modified to the user's will.
-BOARD_ID=<trello-board-id> 
-```
-_The `.env` file will be ignored by git (see: [`.gitignore`](.gitignore))_
-## Running the App locally
+### Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
 ```bash
@@ -72,16 +128,7 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-## Testing
-
-You can run the test modules by running:
-``` bash
-poetry run pytest .
-# or 
-poetry run pytest <path-to-specific-test-file>
-```
-
-## Running the App in Docker
+## Running the App with Docker
 In this project you can build and run a docker image for both Production (using gunicorn to run the server) and Development (using flask for the server and allowing for dynamic debugging of the app). Make sure you are running the app from the repository root folder (where the dockerfile and .dockerignore are located)
 
 ### Production
@@ -116,4 +163,12 @@ Once again you will still need to pass your populated ```.env``` file containing
 ```bash 
 docker run --env-file ./.env -p 5000:5000 --mount type=bind,source=<full/path/to/app/files/todo_app>,target=/DevOps-Course-Starter/todo_app todo_app:dev
 ```
-The Fask server will run in port ```5000``` inside of the container. 
+The Fask server will run in port ```5000``` inside of the container.
+
+## Running Tests
+You can run the test modules by running:
+``` bash
+poetry run pytest .
+# or 
+poetry run pytest <path-to-specific-test-file>
+```
