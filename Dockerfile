@@ -19,7 +19,7 @@ ENV PATH /root/.local/bin:$PATH
 WORKDIR /DevOps-Course-Starter
 COPY poetry.toml pyproject.toml ./
 # Install poetry main dependencies
-RUN poetry install --only main
+RUN poetry config virtualenvs.create false --local && poetry install --only main
 
 ### Create prod layer containing application to run ###
 FROM base as production
